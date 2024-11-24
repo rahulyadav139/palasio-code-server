@@ -13,7 +13,7 @@ dotEnv.config();
 
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   if (res.socket.server.io) {
     console.log('Socket is already running');
   } else {
@@ -29,10 +29,6 @@ app.get('/', (req, res) => {
     });
 
     const ysocketio = new YSocketIO(io, {
-      authenticate: handshake => {
-        return true;
-      },
-
       gcEnabled: true,
     });
     ysocketio.initialize();
@@ -42,6 +38,6 @@ app.get('/', (req, res) => {
   res.end();
 });
 
-server.listen(8080 || process.env.PORT, () => {
+server.listen(process.env.PORT || 8080, () => {
   console.log('listening');
 });
